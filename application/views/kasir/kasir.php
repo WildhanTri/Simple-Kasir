@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Tables - Ready Bootstrap Dashboard</title>
+    <title>Menu Kasir</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 </head>
 <?php $this->load->view('css') ?>
@@ -209,6 +209,7 @@
             type: 'GET',
             url: "<?php echo base_url().'index.php/kasir/identifikasiProduk/' ?>" + idproduk,
             success: function(response) {
+                console.log(response);
                 $("#praNamaProduk").text(response.nama_barang);
                 $("#praHargaProduk").text(response.harga_barang);
                 $("#praStokProduk").text(response.stok_barang);

@@ -28,7 +28,33 @@
         <div class="main-panel">
             <div class="content">
                 <div class="container-fluid">
-                    <h1>Dashboard</h1>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h1>Dashboard</h1>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="padding:0px; background-color:white" style="">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card bg-primary">
+                                    a
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-success">
+                                    a
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-warning">
+                                    a
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

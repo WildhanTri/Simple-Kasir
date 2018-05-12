@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Tables - Ready Bootstrap Dashboard</title>
+    <title>Edit Barang</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 </head>
 <?php $this->load->view('css') ?>
@@ -37,12 +37,12 @@
                     </div>
                     <div class="col-md-12">
                         <?php foreach($barang as $b) : ?>
-                        <form action="<?php echo base_url(" index.php/kasir/prosesUbahBarang/ ".$b['id_barang']); ?>" method="post">
+                        <form action="<?php echo base_url(" index.php/kasir/prosesUbahBarang/ ".$b->id_barang); ?>" method="post">
                             <table class="table table-stripped">
                                 <tr>
                                     <td>Nama Barang</td>
                                     <td>:</td>
-                                    <td><input type="text" class="form-control" placeholder="Masukan Nama Barang Disini..." autocomplete="off" name="namabarang" value="<?php echo $b['nama_barang'] ?>" required/></td>
+                                    <td><input type="text" class="form-control" placeholder="Masukan Nama Barang Disini..." autocomplete="off" name="namabarang" value="<?php echo $b->nama_barang ?>" required/></td>
                                 </tr>
                                 <tr>
                                     <td>Kategori Barang</td>
@@ -51,7 +51,7 @@
                                         <select class="form-control" name="kategoribarang" required>
                                     <option disabled>Pilih Kategori...</option>
                                     <?php foreach($kategori as $k) : ?>
-                                        <option value="<?php echo $k['id_kategori'] ?>" <?php echo $b['kategori_barang'] == $k['id_kategori'] ? "selected" : ""  ?>> <?php echo $k['nama_kategori'] ?></option>
+                                        <option value="<?php echo $k->id_kategori ?>" <?php echo $b->kategori_barang == $k->id_kategori ? "selected" : ""  ?>> <?php echo $k->nama_kategori ?></option>
                                     <?php endforeach ?>
                                 </select>
                                     </td>
@@ -59,12 +59,12 @@
                                 <tr>
                                     <td>Harga Barang</td>
                                     <td>:</td>
-                                    <td><input type="text" class="form-control" placeholder="Masukan Harga Barang Disini..." autocomplete="off" name="hargabarang" value="<?php echo $b['harga_barang'] ?>" required/></td>
+                                    <td><input type="text" class="form-control" placeholder="Masukan Harga Barang Disini..." autocomplete="off" name="hargabarang" value="<?php echo $b->harga_barang ?>" required/></td>
                                 </tr>
                                 <tr>
                                     <td>Stok Barang</td>
                                     <td>:</td>
-                                    <td><input type="number" class="form-control" placeholder="Masukan Stok Barang Disini..." autocomplete="off" name="stokbarang" value="<?php echo $b['stok_barang'] ?>" required/></td>
+                                    <td><input type="number" class="form-control" placeholder="Masukan Stok Barang Disini..." autocomplete="off" name="stokbarang" value="<?php echo $b->stok_barang ?>" required/></td>
                                 </tr>
                                 <tr>
                                     <td>

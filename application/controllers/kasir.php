@@ -22,9 +22,9 @@ class kasir extends CI_Controller {
     function index(){
         if($this->session->userdata('nama') != null){
             $data = array (
-                "page" => "Home"
+                "page" => "Kasir"
             );
-            $this->load->view('home/home', $data);
+            $this->load->view('kasir/kasir', $data);
         }else{
             $data = array (
                 "page" => "Login"
@@ -47,7 +47,7 @@ class kasir extends CI_Controller {
 		if(count($cek) > 0){
  
 			$data_session = array(
-				'id_user' => $cek[0]['id_user'],
+				'id_user' => $cek[0]->id_user,
 				'nama' => $username,
 				'status' => "login"
 				);
@@ -69,12 +69,13 @@ class kasir extends CI_Controller {
         $this->load->view('kasir/kasir', $data);
     }
     function identifikasiProduk($idproduk){
-        $barang = $this->kasir_model->select2TableWhere('barang','barang_kategori', 'barang.kategori_barang = barang_kategori.id_kategori', array("deleted_on" => null, "id_barang" => $idproduk));
+        $barang = $this->kasir_model->select2TableWhere('barang','barang_kategori', 'barang.kategori_barang = barang_kategori.id_kategori', array("deleted_on" => null, "id_barang" => $idproduk), "","");
+ 
         if($barang == true){
             $data = array (
-                'nama_barang' => $barang[0]['nama_barang'],
-                'harga_barang' => $barang[0]['harga_barang'],
-                'stok_barang' => $barang[0]['stok_barang'],
+                'nama_barang' => $barang[0]->nama_barang,
+                'harga_barang' => $barang[0]->harga_barang,
+                'stok_barang' => $barang[0]->stok_barang,
                 'status' => "success"
             );
         }else{
@@ -92,7 +93,7 @@ class kasir extends CI_Controller {
     
     function konfirmasiBelanja(){
         $transaksi = $this->kasir_model->selectLastID("kasir", "transaksi");
-        $idtransaksi = $transaksi[0]['AUTO_INCREMENT'];
+        $idtransaksi = $transaksi[0]->AUTO_INCREMENT;
         $data = array (
             'total_harga_belanja' => $this->input->post('inputtotalharga'),
             'jumlah_bayar' => $this->input->post('inputjumlahbayar'),
@@ -114,12 +115,30 @@ class kasir extends CI_Controller {
     }
     
     //////Barang///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function menuBarang(){
-        $barang = $this->kasir_model->select2TableWhere('barang','barang_kategori', 'barang.kategori_barang = barang_kategori.id_kategori', array("deleted_on" => null));
+    function menuBarang($id=null){
+        $jml = $this->db->get('barang');
+        
+        
+        //pengaturan pagination
+        $config['base_url'] = base_url().'index.php/kasir/menuBarang';
+        $config['use_page_numbers'] = false;
+        $config['total_rows'] = $jml->num_rows();
+        $config['per_page'] = '5';
+        $config['first_page'] = 'Awal';
+        $config['last_page'] = 'Akhir';
+        $config['next_page'] = '&laquo;';
+        $config['prev_page'] = '&raquo;';
+        
+        $barang = $this->kasir_model->select2TableWhere('barang','barang_kategori', 'barang.kategori_barang = barang_kategori.id_kategori', array("deleted_on" => null), $config['per_page'], $id);
+        
+        $this->pagination->initialize($config);
         $data = array (
             'barang' => $barang,
-            'page' => "MenuBarang"
+            'page' => "MenuBarang",
+            'halaman' => $this->pagination->create_links(),
+            
         );
+        
         $this->load->view('barang/barang', $data);
     }
     function tambahBarang(){
@@ -196,16 +215,52 @@ class kasir extends CI_Controller {
         $data = array (
             'barang' => $barang
         );
-        $this->load->view('barang/sortbarang', $data);
+        $this->load->view('barang/advbarang', $data);
     }
     
+    function prosesSearchBarang($id=null){
+        $config['base_url'] = base_url().'index.php/kasir/prosesSearchBarang';
+        $config['use_page_numbers'] = false;
+        $config['per_page'] = '10';
+        $config['first_page'] = 'Awal';
+        $config['last_page'] = 'Akhir';
+        $config['next_page'] = '&laquo;';
+        $config['prev_page'] = '&raquo;';
+        $searchBy = $this->input->post("searchBy");
+        $searchKey = $this->input->post("searchKey");
+        $barang = $this->kasir_model->select2TableWhere('barang','barang_kategori', 'barang.kategori_barang = barang_kategori.id_kategori', array("deleted_on" => null, $searchBy => $searchKey), $config['per_page'], $id);
+        
+        $config['total_rows'] = count($barang[0]);
+        $this->pagination->initialize($config);
+        
+        $data = array (
+            'barang' => $barang,
+            'searchBy' => $searchBy,
+            'searchKey' => $searchKey,
+            'page' => "MenuBarang",
+            'halaman' => $this->pagination->create_links(),
+        );
+        $this->load->view('barang/barang', $data);
+    }
     
     //////K  A  S  I  R///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function menuTransaksi(){
-        $transaksi = $this->kasir_model->select2Table('transaksi', 'user', 'transaksi.id_user = user.id_user');
+    function menuTransaksi($id=null){
+        $jml = $this->db->get('transaksi');
+        $config['base_url'] = base_url().'index.php/kasir/menuTransaksi';
+        $config['use_page_numbers'] = false;
+        $config['total_rows'] = $jml->num_rows();
+        $config['per_page'] = '10';
+        $config['first_page'] = 'Awal';
+        $config['last_page'] = 'Akhir';
+        $config['next_page'] = '&laquo;';
+        $config['prev_page'] = '&raquo;';
+        
+        $this->pagination->initialize($config);
+        $transaksi = $this->kasir_model->select2Table('transaksi', 'user', 'transaksi.id_user = user.id_user',$config['per_page'], $id);
         $data = array (
             'transaksi' => $transaksi,
-            'page' => "MenuTransaksi"
+            'page' => "MenuTransaksi",
+            'halaman' => $this->pagination->create_links(),
         );
         $this->load->view('transaksi/transaksi', $data);
     }

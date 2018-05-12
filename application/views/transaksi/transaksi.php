@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Tables - Ready Bootstrap Dashboard</title>
+    <title>Menu Transaksi</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 </head>
 <?php $this->load->view('css') ?>
@@ -35,8 +35,8 @@
                         <div class="col-md-2">
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <table class="table table-stripped">
+                    <div class="col-md-12" style="padding:0px; background-color:white" style="">
+                        <table class="table table-stripped" style="background:white">
                             <tr>
                                 <th>Kode Transaksi</th>
                                 <th>Waktu Transaksi</th>
@@ -49,22 +49,22 @@
                             <?php foreach($transaksi as $t) : ?>
                             <tr>
                                 <td>
-                                    <?php echo $t['id_transaksi'] ?>
+                                    <?php echo $t->id_transaksi ?>
                                 </td>
                                 <td>
-                                    <?php echo $t['created_on'] ?>
+                                    <?php echo $t->created_on ?>
                                 </td>
                                 <td>
-                                    <?php echo "Rp. ".$t['total_harga_belanja'] ?>
+                                    <?php echo "Rp. ".$t->total_harga_belanja ?>
                                 </td>
                                 <td>
-                                    <?php echo "Rp. ".$t['jumlah_bayar'] ?>
+                                    <?php echo "Rp. ".$t->jumlah_bayar ?>
                                 </td>
                                 <td>
-                                    <?php echo "Rp. ".  $t['jumlah_kembali'] ?>
+                                    <?php echo "Rp. ".  $t->jumlah_kembali ?>
                                 </td>
                                 <td>
-                                    <?php echo $t['username'] ?>
+                                    <?php echo $t->username ?>
                                 </td>
                             </tr>
                             <?php endforeach ?>
@@ -75,6 +75,7 @@
                             <?php endif ?>
 
                         </table>
+                        <div class="halaman">Halaman : <?php echo $halaman ?></div>
                     </div>
                 </div>
             </div>

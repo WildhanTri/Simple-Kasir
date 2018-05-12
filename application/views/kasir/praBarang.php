@@ -1,4 +1,3 @@
-
 <tr>
     <td>ID Produk</td>
     <td>:</td>
@@ -8,17 +7,17 @@
 <tr>
     <td>Nama Produk</td>
     <td>:</td>
-    <td id="praNamaProduk"><?php echo $barang[0]['nama_barang'] ?></td>
+    <td id="praNamaProduk"><?php echo $barang->nama_barang ?></td>
 </tr>
 <tr>
     <td>Harga Produk</td>
     <td>:</td>
-    <td id="praHargaProduk"><?php echo $barang[0]['harga_barang'] ?></td>
+    <td id="praHargaProduk"><?php echo $barang->harga_barang ?></td>
 </tr>
 <tr>
     <td>Stok Produk</td>
     <td>:</td>
-    <td id="praStokProduk"><?php echo $barang[0]['stok_barang'] ?></td>
+    <td id="praStokProduk"><?php echo $barang->stok_barang ?></td>
 </tr>
 <tr>
     <td>Qty :</td>

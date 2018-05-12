@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Tables - Ready Bootstrap Dashboard</title>
+    <title>Menu Barang</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 </head>
 <?php $this->load->view('css') ?>
@@ -18,10 +18,11 @@
     .l {
         border: 1px solid black;
     }
-    
-    .sort tr th{
+
+    .sort tr th {
         cursor: pointer;
     }
+
 </style>
 
 <body>
@@ -40,15 +41,19 @@
                         </div>
                     </div>
                     <div class="col-md-12" style="padding:0px; background-color:white" style="">
-                        <form action="<?php base_url(" index.php/kasir/prosesSearchBarang ") ?>" method="post">
+                        <form action="<?php echo base_url("index.php/kasir/prosesSearchBarang ") ?>" method="post">
                             <table class="table">
                                 <tr>
-
                                     <td>Search :</td>
-                                    <td><input type="text" class="form-control" placeholder="Masukan Kata Kunci..." autocomplete="off" /></td>
+                                    <td>
+                                        <select name="searchBy" class="form-control">
+                                            <option value="id_barang" selected>ID</option>
+                                            <option value="nama_barang">Nama</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" placeholder="Masukan Kata Kunci..." name="searchKey" autocomplete="off" /></td>
                                     <td><input type="submit" class="btn btn-success" autocomplete="off" value="Search" /></td>
-
-                                    <td><button type="button" class="btn btn-info" style="width:100%">Filter</button></td>
+                                    <td></td>
                                 </tr>
                             </table>
                         </form>
@@ -67,20 +72,20 @@
                         <?php foreach($barang as $b) : ?>
                         <tr class="rowdata">
                             <td>
-                                <?php echo $b['id_barang'] ?>
+                                <?php echo $b->id_barang ?>
                             </td>
                             <td>
-                                <?php echo $b['nama_barang'] ?>
+                                <?php echo $b->nama_barang ?>
                             </td>
                             <td>
-                                <?php echo $b['stok_barang'] ?>
+                                <?php echo $b->stok_barang ?>
                             </td>
                             <td>
-                                <?php echo $b['harga_barang'] ?>
+                                <?php echo $b->harga_barang ?>
                             </td>
                             <td>
-                                <a href="<?php echo base_url('index.php/kasir/editBarang/'.$b['id_barang']) ?>"><button class="btn btn-success"><i class="fa fa-edit"></i></button></a>
-                                <a href="<?php echo base_url('index.php/kasir/prosesHapusBarang/'.$b['id_barang']) ?>"><button class="btn btn-danger"><i class="fa fa-trash-alt"></i></button></a>
+                                <a href="<?php echo base_url('index.php/kasir/editBarang/'.$b->id_barang) ?>"><button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Edit Barang"><i class="fa fa-edit"></i></button></a>
+                                <a href="<?php echo base_url('index.php/kasir/prosesHapusBarang/'.$b->id_barang) ?>"><button class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Hapus Barang"><i class="fa fa-trash-alt"></i></button></a>
                             </td>
                         </tr>
                         <?php endforeach ?>
@@ -90,6 +95,9 @@
                         </tr>
                         <?php endif ?>
                     </table>
+                    <div class="halaman">Halaman :
+                        <?php echo $halaman ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,11 +105,6 @@
 </body>
 <?php $this->load->view('js') ?>
 <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-
     function prosesSearchBarang() {
         $.ajax({
             type: 'GET',
@@ -115,26 +118,31 @@
     }
 
     function prosesSortBarang(sortBy, sortType, column) {
+        
         $.ajax({
             type: 'POST',
             data: {
                 "sortBy": sortBy,
-                "sortType": sortType
+                "sortType": sortType,
+                <?php if(isset($searchKey)) : ?>
+                "searchBy": searchBy,
+                "searchKey": searchKey <?php endif ?>
             },
-            
+
             url: "<?php echo base_url().'index.php/kasir/prosesSortBarang/' ?>",
             success: function(response) {
                 $(".rowdata").remove();
                 $("#databarang").append(response);
             }
         });
-        if(sortType == "ASC"){
-            $(column).attr("onclick","prosesSortBarang('"+sortBy+"', 'DESC', this)");
-        }else{
-            $(column).attr("onclick","prosesSortBarang('"+sortBy+"', 'ASC', this)");
+        if (sortType == "ASC") {
+            $(column).attr("onclick", "prosesSortBarang('" + sortBy + "', 'DESC', this)");
+        } else {
+            $(column).attr("onclick", "prosesSortBarang('" + sortBy + "', 'ASC', this)");
         }
 
     }
 
 </script>
+
 </html>

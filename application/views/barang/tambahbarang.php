@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Tables - Ready Bootstrap Dashboard</title>
+    <title>Tambah Barang</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 </head>
 <?php $this->load->view('css') ?>
@@ -50,7 +50,7 @@
                                         <select class="form-control" name="kategoribarang" required>
                                     <option selected disabled>Pilih Kategori...</option>
                                     <?php foreach($kategori as $k) : ?>
-                                        <option value="<?php echo $k['id_kategori'] ?>"><?php echo $k['nama_kategori'] ?></option>
+                                        <option value="<?php echo $k->id_kategori ?>"><?php echo $k->nama_kategori ?></option>
                                     <?php endforeach ?>
                                 </select>
                                     </td>
